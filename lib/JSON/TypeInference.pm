@@ -6,6 +6,7 @@ use warnings;
 our $VERSION = "0.01";
 
 use List::Util qw(first);
+use List::UtilsBy qw(partition_by sort_by);
 
 use JSON::TypeInference::Type::Array;
 use JSON::TypeInference::Type::Boolean;
@@ -13,6 +14,7 @@ use JSON::TypeInference::Type::Null;
 use JSON::TypeInference::Type::Number;
 use JSON::TypeInference::Type::Object;
 use JSON::TypeInference::Type::String;
+use JSON::TypeInference::Type::Union;
 use JSON::TypeInference::Type::Unknown;
 
 use constant ENTITY_TYPE_CLASSES => [
@@ -22,30 +24,33 @@ use constant ENTITY_TYPE_CLASSES => [
 # [Any] => Type
 sub deduce {
   my ($class, $dataset) = @_;
-  my $possibles = _search_possibles($dataset);
-  my ($type_class) = @$possibles; # TODO
-  if ($type_class eq 'JSON::TypeInference::Type::Array') {
-    my $elements = [ map { @$_ } @$dataset ];
-    my $element_type = $class->deduce($elements);
-    return JSON::TypeInference::Type::Array->new($element_type);
-  } elsif ($type_class eq 'JSON::TypeInference::Type::Object') {
-    my $keys = [ map { keys %$_ } @$dataset ];
-    my $key_type = $class->deduce($keys);
-    my $values = [ map { values %$_ } @$dataset ];
-    my $value_type = $class->deduce($values);
-    return JSON::TypeInference::Type::Object->new($key_type, $value_type);
-  } else {
-    return ($type_class // 'JSON::TypeInference::Type::Unknown')->new;
-  }
+  my $dataset_by_type = { partition_by { _deduce_type_for($_) } @$dataset };
+  my $possible_types = [ keys %$dataset_by_type ];
+  my $types = [ map {
+    my $type_class = $_;
+    if ($type_class eq 'JSON::TypeInference::Type::Array') {
+      my $dataset = $dataset_by_type->{$type_class};
+      my $elements = [ map { @$_ } @$dataset ];
+      my $element_type = $class->deduce($elements);
+      JSON::TypeInference::Type::Array->new($element_type);
+    } elsif ($type_class eq 'JSON::TypeInference::Type::Object') {
+      my $dataset = $dataset_by_type->{$type_class};
+      my $keys = [ map { keys %$_ } @$dataset ];
+      my $key_type = $class->deduce($keys);
+      my $values = [ map { values %$_ } @$dataset ];
+      my $value_type = $class->deduce($values);
+      JSON::TypeInference::Type::Object->new($key_type, $value_type);
+    } else {
+      ($type_class // 'JSON::TypeInference::Type::Unknown')->new;
+    }
+  } @$possible_types ];
+  return scalar(@$types) > 1 ? JSON::TypeInference::Type::Union->new(sort_by { $_->name } @$types) : $types->[0];
 }
 
-# [Any] => [Type]
-sub _search_possibles {
-  my ($dataset) = @_;
-  return [ map {
-    my $data = $_;
-    first { $_->accepts($data) } @{ENTITY_TYPE_CLASSES()};
-  } @$dataset ];
+# Any => Type
+sub _deduce_type_for {
+  my ($data) = @_;
+  return (first { $_->accepts($data) } @{ENTITY_TYPE_CLASSES()}) // 'JSON::TypeInference::Type::Unknown';
 }
 
 1;
