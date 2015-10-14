@@ -24,7 +24,13 @@ sub deduce {
   my ($class, $dataset) = @_;
   my $possibles = _search_possibles($dataset);
   my ($type_class) = @$possibles; # TODO
-  return ($type_class // 'JSON::TypeInference::Type::Unknown')->new;
+  if ($type_class eq 'JSON::TypeInference::Type::Array') {
+    my $elements = [ map { @$_ } @$dataset ];
+    my $element_type = $class->deduce($elements);
+    return JSON::TypeInference::Type::Array->new($element_type);
+  } else {
+    return ($type_class // 'JSON::TypeInference::Type::Unknown')->new;
+  }
 }
 
 # [Any] => [Type]

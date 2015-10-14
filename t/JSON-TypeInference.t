@@ -17,6 +17,9 @@ subtest '#deduce' => sub {
     cmp_deeply +JSON::TypeInference->deduce([1, 2, 3]), JSON::TypeInference::Type::Number->new;
     cmp_deeply +JSON::TypeInference->deduce([\1, \1]), JSON::TypeInference::Type::Boolean->new;
     cmp_deeply +JSON::TypeInference->deduce([undef, undef]), JSON::TypeInference::Type::Null->new;
+    cmp_deeply +JSON::TypeInference->deduce([ [1], [2] ]), isa('JSON::TypeInference::Type::Array') & methods(
+      element_type => JSON::TypeInference::Type::Number->new,
+    );
   };
 };
 

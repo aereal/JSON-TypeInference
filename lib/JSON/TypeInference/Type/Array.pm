@@ -4,10 +4,17 @@ use warnings;
 use parent qw(JSON::TypeInference::Type);
 
 sub new {
-  my ($class) = @_;
+  my ($class, $element_type) = @_;
   return $class->_new(
-    name => 'array',
+    name         => 'array',
+    element_type => $element_type,
   );
+}
+
+# => Type
+sub element_type {
+  my ($self) = @_;
+  return $self->{element_type};
 }
 
 sub accepts {
