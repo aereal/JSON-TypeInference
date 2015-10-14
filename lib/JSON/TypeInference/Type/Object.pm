@@ -1,7 +1,7 @@
 package JSON::TypeInference::Type::Object;
 use strict;
 use warnings;
-use parent qw(JSON::TypeInference::Type);
+use parent qw(JSON::TypeInference::Type::Base);
 
 sub new {
   my ($class, $key_type, $value_type) = @_;

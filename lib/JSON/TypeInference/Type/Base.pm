@@ -1,4 +1,4 @@
-package JSON::TypeInference::Type;
+package JSON::TypeInference::Type::Base;
 use strict;
 use warnings;
 
