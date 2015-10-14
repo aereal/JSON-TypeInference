@@ -22,23 +22,23 @@ use constant ENTITY_TYPE_CLASSES => [
 ];
 
 # [Any] => Type
-sub deduce {
+sub infer {
   my ($class, $dataset) = @_;
-  my $dataset_by_type = { partition_by { _deduce_type_for($_) } @$dataset };
+  my $dataset_by_type = { partition_by { _infer_type_for($_) } @$dataset };
   my $possible_types = [ keys %$dataset_by_type ];
   my $types = [ map {
     my $type_class = $_;
     if ($type_class eq 'JSON::TypeInference::Type::Array') {
       my $dataset = $dataset_by_type->{$type_class};
       my $elements = [ map { @$_ } @$dataset ];
-      my $element_type = $class->deduce($elements);
+      my $element_type = $class->infer($elements);
       JSON::TypeInference::Type::Array->new($element_type);
     } elsif ($type_class eq 'JSON::TypeInference::Type::Object') {
       my $dataset = $dataset_by_type->{$type_class};
       my $keys = [ map { keys %$_ } @$dataset ];
-      my $key_type = $class->deduce($keys);
+      my $key_type = $class->infer($keys);
       my $values = [ map { values %$_ } @$dataset ];
-      my $value_type = $class->deduce($values);
+      my $value_type = $class->infer($values);
       JSON::TypeInference::Type::Object->new($key_type, $value_type);
     } else {
       ($type_class // 'JSON::TypeInference::Type::Unknown')->new;
@@ -48,7 +48,7 @@ sub deduce {
 }
 
 # Any => Type
-sub _deduce_type_for {
+sub _infer_type_for {
   my ($data) = @_;
   return (first { $_->accepts($data) } @{ENTITY_TYPE_CLASSES()}) // 'JSON::TypeInference::Type::Unknown';
 }
