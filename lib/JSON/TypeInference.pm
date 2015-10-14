@@ -28,6 +28,12 @@ sub deduce {
     my $elements = [ map { @$_ } @$dataset ];
     my $element_type = $class->deduce($elements);
     return JSON::TypeInference::Type::Array->new($element_type);
+  } elsif ($type_class eq 'JSON::TypeInference::Type::Object') {
+    my $keys = [ map { keys %$_ } @$dataset ];
+    my $key_type = $class->deduce($keys);
+    my $values = [ map { values %$_ } @$dataset ];
+    my $value_type = $class->deduce($values);
+    return JSON::TypeInference::Type::Object->new($key_type, $value_type);
   } else {
     return ($type_class // 'JSON::TypeInference::Type::Unknown')->new;
   }

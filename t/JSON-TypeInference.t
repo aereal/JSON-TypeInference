@@ -20,6 +20,10 @@ subtest '#deduce' => sub {
     cmp_deeply +JSON::TypeInference->deduce([ [1], [2] ]), isa('JSON::TypeInference::Type::Array') & methods(
       element_type => JSON::TypeInference::Type::Number->new,
     );
+    cmp_deeply +JSON::TypeInference->deduce([ { a => 1 }, { b => 2 } ]), isa('JSON::TypeInference::Type::Object') & methods(
+      key_type   => JSON::TypeInference::Type::String->new,
+      value_type => JSON::TypeInference::Type::Number->new,
+    );
   };
 };
 
