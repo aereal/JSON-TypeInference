@@ -42,6 +42,9 @@
       },
       "runtime" : {
          "requires" : {
+            "List::Util" : "0",
+            "List::UtilsBy" : "0",
+            "Scalar::Util" : "0",
             "perl" : "5.008001"
          }
       },
@@ -52,6 +55,17 @@
       }
    },
    "release_status" : "unstable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/aereal/JSON-TypeInference/issues"
+      },
+      "homepage" : "https://github.com/aereal/JSON-TypeInference",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/aereal/JSON-TypeInference.git",
+         "web" : "https://github.com/aereal/JSON-TypeInference"
+      }
+   },
    "version" : "0.01",
    "x_authority" : "cpan:AEREAL"
 }
