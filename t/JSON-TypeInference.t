@@ -1,7 +1,8 @@
 use strict;
 use warnings;
-use Test::Deep;
+use Test::Deep qw(cmp_deeply);
 use Test::More;
+use Test::JSON::TypeInference::Matcher;
 
 require_ok 'JSON::TypeInference::Type::Array';
 require_ok 'JSON::TypeInference::Type::Boolean';
@@ -14,34 +15,19 @@ require_ok 'JSON::TypeInference';
 
 subtest '#infer' => sub {
   subtest 'same types' => sub {
-    cmp_deeply +JSON::TypeInference->infer([qw( a b c )]), JSON::TypeInference::Type::String->new;
-    cmp_deeply +JSON::TypeInference->infer([1, 2, 3]), JSON::TypeInference::Type::Number->new;
-    cmp_deeply +JSON::TypeInference->infer([\1, \1]), JSON::TypeInference::Type::Boolean->new;
-    cmp_deeply +JSON::TypeInference->infer([undef, undef]), JSON::TypeInference::Type::Null->new;
-    cmp_deeply +JSON::TypeInference->infer([ [1], [2] ]), isa('JSON::TypeInference::Type::Array') & methods(
-      element_type => JSON::TypeInference::Type::Number->new,
-    );
-    cmp_deeply +JSON::TypeInference->infer([ { a => 1 }, { b => 2 } ]), isa('JSON::TypeInference::Type::Object') & methods(
-      key_type   => JSON::TypeInference::Type::String->new,
-      value_type => JSON::TypeInference::Type::Number->new,
-    );
+    cmp_deeply +JSON::TypeInference->infer([qw( a b c )]), string;
+    cmp_deeply +JSON::TypeInference->infer([1, 2, 3]), number;
+    cmp_deeply +JSON::TypeInference->infer([\1, \1]), boolean;
+    cmp_deeply +JSON::TypeInference->infer([undef, undef]), null;
+    cmp_deeply +JSON::TypeInference->infer([ [1], [2] ]), array number;
+    cmp_deeply +JSON::TypeInference->infer([ { a => 1 }, { b => 2 } ]), object string, number;
   };
   subtest 'union' => sub {
-    cmp_deeply +JSON::TypeInference->infer([ 1, 'a' ]), isa('JSON::TypeInference::Type::Union') & methods(
-      types => [
-        JSON::TypeInference::Type::Number->new,
-        JSON::TypeInference::Type::String->new,
-      ],
-    );
-    cmp_deeply +JSON::TypeInference->infer([ 1, [1] ]), isa('JSON::TypeInference::Type::Union') & methods(
-      types => [
-        isa('JSON::TypeInference::Type::Array') & methods(element_type => JSON::TypeInference::Type::Number->new),
-        JSON::TypeInference::Type::Number->new,
-      ],
-    );
+    cmp_deeply +JSON::TypeInference->infer([ 1, 'a' ]), union number, string;
+    cmp_deeply +JSON::TypeInference->infer([ 1, [1] ]), union array(number), number;
   };
   subtest 'unknown' => sub {
-    cmp_deeply +JSON::TypeInference->infer([ bless({}, 't::Blessed') ]), JSON::TypeInference::Type::Unknown->new;
+    cmp_deeply +JSON::TypeInference->infer([ bless({}, 't::Blessed') ]), unknown;
   };
 };
 
