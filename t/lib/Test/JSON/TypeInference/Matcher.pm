@@ -42,9 +42,9 @@ sub array ($) {
   return Test::Deep::isa('JSON::TypeInference::Type::Array') & Test::Deep::methods(element_type => $type);
 }
 
-sub object ($$) {
-  my ($key_type, $value_type) = @_;
-  return Test::Deep::isa('JSON::TypeInference::Type::Object') & Test::Deep::methods(key_type => $key_type, value_type => $value_type);
+sub object (%) {
+  my (%args) = @_;
+  return Test::Deep::isa('JSON::TypeInference::Type::Object') & Test::Deep::methods(properties => \%args);
 }
 
 sub union (@) {

@@ -4,22 +4,16 @@ use warnings;
 use parent qw(JSON::TypeInference::Type::Base);
 
 sub new {
-  my ($class, $key_type, $value_type) = @_;
+  my ($class, $properties) = @_;
   return $class->_new(
     name       => 'object',
-    key_type   => $key_type,
-    value_type => $value_type,
+    properties => $properties,
   );
 }
 
-sub key_type {
+sub properties {
   my ($self) = @_;
-  return $self->{key_type};
-}
-
-sub value_type {
-  my ($self) = @_;
-  return $self->{value_type};
+  return $self->{properties};
 }
 
 sub accepts {
