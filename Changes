@@ -2,6 +2,10 @@ Revision history for Perl extension JSON-TypeInference
 
 {{$NEXT}}
 
+0.03 2015-10-15T09:41:29Z
+
+    - No changes
+
 0.02 2015-10-15T09:40:32Z
     - #4 Infer the type of each properties
         - https://github.com/aereal/JSON-TypeInference/pull/4
