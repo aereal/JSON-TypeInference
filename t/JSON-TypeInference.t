@@ -21,7 +21,6 @@ subtest '#infer' => sub {
     cmp_deeply +JSON::TypeInference->infer([\1, \1]), boolean;
     cmp_deeply +JSON::TypeInference->infer([undef, undef]), null;
     cmp_deeply +JSON::TypeInference->infer([ [1], [2] ]), array number;
-    cmp_deeply +JSON::TypeInference->infer([ { a => 1 }, { b => 2 } ]), object string, number;
   };
   subtest 'union' => sub {
     cmp_deeply +JSON::TypeInference->infer([ 1, 'a' ]), union number, string;
@@ -29,6 +28,12 @@ subtest '#infer' => sub {
   };
   subtest 'unknown' => sub {
     cmp_deeply +JSON::TypeInference->infer([ bless({}, 't::Blessed') ]), unknown;
+  };
+  subtest 'object' => sub {
+    cmp_deeply +JSON::TypeInference->infer([ { id => 1, is_ok => \1 }, { id => 2, is_ok => \0 } ]), object(
+      id    => number,
+      is_ok => boolean,
+    );
   };
 };
 

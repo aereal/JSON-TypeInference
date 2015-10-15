@@ -34,12 +34,14 @@ sub infer {
       my $element_type = $class->infer($elements);
       JSON::TypeInference::Type::Array->new($element_type);
     } elsif ($type_class eq 'JSON::TypeInference::Type::Object') {
-      my $dataset = $dataset_by_type->{$type_class};
-      my $keys = [ map { keys %$_ } @$dataset ];
-      my $key_type = $class->infer($keys);
-      my $values = [ map { values %$_ } @$dataset ];
-      my $value_type = $class->infer($values);
-      JSON::TypeInference::Type::Object->new($key_type, $value_type);
+      my $dataset = $dataset_by_type->{$type_class}; # ArrayRef[HashRef[Str, Any]]
+      my $keys = [ map { keys %$_ } @$dataset ]; # ArrayRef[Str]
+      my $dataset_by_prop = { map {
+        my $prop = $_;
+        ($prop => [ map { $_->{$prop} } @$dataset ])
+      } @$keys }; # HashRef[Str, ArrayRef[Str]]
+      my $prop_types = { map { ($_ => $class->infer($dataset_by_prop->{$_})) } @$keys };
+      JSON::TypeInference::Type::Object->new($prop_types);
     } else {
       ($type_class // 'JSON::TypeInference::Type::Unknown')->new;
     }
