@@ -1,14 +1,15 @@
 package JSON::TypeInference::Type::Object;
 use strict;
 use warnings;
-use parent qw(JSON::TypeInference::Type::Base);
 
 sub new {
   my ($class, $properties) = @_;
-  return $class->_new(
-    name       => 'object',
-    properties => $properties,
-  );
+  return bless { properties => $properties }, $class;
+}
+
+sub name {
+  my ($class) = @_;
+  return 'object';
 }
 
 sub properties {

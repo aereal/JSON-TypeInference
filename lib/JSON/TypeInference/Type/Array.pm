@@ -1,14 +1,15 @@
 package JSON::TypeInference::Type::Array;
 use strict;
 use warnings;
-use parent qw(JSON::TypeInference::Type::Base);
 
 sub new {
   my ($class, $element_type) = @_;
-  return $class->_new(
-    name         => 'array',
-    element_type => $element_type,
-  );
+  return bless { element_type => $element_type }, $class;
+}
+
+sub name {
+  my ($class) = @_;
+  return 'array';
 }
 
 # => Type

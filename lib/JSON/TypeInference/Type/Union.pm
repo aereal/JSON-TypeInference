@@ -1,11 +1,15 @@
 package JSON::TypeInference::Type::Union;
 use strict;
 use warnings;
-use parent qw(JSON::TypeInference::Type::Base);
 
 sub new {
   my ($class, @types) = @_;
-  return $class->_new(name => 'union', _types => \@types);
+  return bless { _types => \@types }, $class;
+}
+
+sub name {
+  my ($class) = @_;
+  return 'union';
 }
 
 sub types {

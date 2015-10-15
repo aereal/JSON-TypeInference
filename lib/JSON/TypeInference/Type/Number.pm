@@ -1,13 +1,17 @@
 package JSON::TypeInference::Type::Number;
 use strict;
 use warnings;
-use parent qw(JSON::TypeInference::Type::Base);
 
 use Scalar::Util qw(looks_like_number);
 
 sub new {
   my ($class) = @_;
-  return $class->_new(name => 'number');
+  return bless {}, $class;
+}
+
+sub name {
+  my ($class) = @_;
+  return 'number';
 }
 
 sub accepts {

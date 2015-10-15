@@ -1,13 +1,15 @@
 package JSON::TypeInference::Type::Unknown;
 use strict;
 use warnings;
-use parent qw(JSON::TypeInference::Type::Base);
 
 sub new {
   my ($class) = @_;
-  return $class->_new(
-    name => 'unknown',
-  );
+  return bless {}, $class;
+}
+
+sub name {
+  my ($class) = @_;
+  return 'unknown';
 }
 
 sub accepts {
