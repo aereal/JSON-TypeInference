@@ -40,6 +40,9 @@ subtest '#infer' => sub {
       ],
     );
   };
+  subtest 'unknown' => sub {
+    cmp_deeply +JSON::TypeInference->infer([ bless({}, 't::Blessed') ]), JSON::TypeInference::Type::Unknown->new;
+  };
 };
 
 done_testing;
