@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/aereal/JSON-TypeInference.svg?branch=master)](https://travis-ci.org/aereal/JSON-TypeInference) [![Coverage Status](https://img.shields.io/coveralls/aereal/JSON-TypeInference/master.svg?style=flat)](https://coveralls.io/r/aereal/JSON-TypeInference?branch=master)
 # NAME
 
 JSON::TypeInference - Inferencing JSON types from given Perl values
