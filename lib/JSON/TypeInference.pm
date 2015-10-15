@@ -60,15 +60,39 @@ __END__
 
 =head1 NAME
 
-JSON::TypeInference - It's new $module
+JSON::TypeInference - Inferencing JSON types from given Perl values
 
 =head1 SYNOPSIS
 
     use JSON::TypeInference;
 
+    my $data = [
+      { name => 'yuno' },
+      { name => 'miyako' },
+      { name => 'nazuna' },
+      { name => 'nori' },
+    ];
+    my $inferred_type = JSON::TypeInference->infer($data); # object[string, string]
+
 =head1 DESCRIPTION
 
-JSON::TypeInference is ...
+JSON::TypeInference infers the type of JSON values from the given Perl values.
+
+If some candidate types of the given Perl values are inferred, JSON::TypeInference reports the type of it as a union type that consists of all candidate types.
+
+=head1 CLASS METHODS
+
+=over 4
+
+=item infer
+
+    JSON::TypeInference->infer($dataset: ArrayRef[Any]); # => JSON::TypeInference::Type
+
+To infer the type of JSON values from the given values.
+
+Return value is a instance of JSON::TypeInference::Type that means the inferred JSON type.
+
+=back
 
 =head1 LICENSE
 
