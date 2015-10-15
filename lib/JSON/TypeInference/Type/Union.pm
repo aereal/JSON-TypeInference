@@ -18,7 +18,7 @@ sub types {
 }
 
 sub accepts {
-  my ($self, $data) = @_;
+  my ($class, $data) = @_;
   return 0;
 }
 
