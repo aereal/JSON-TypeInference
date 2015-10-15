@@ -1,5 +1,6 @@
 use strict;
 use warnings;
+use lib 't/lib';
 use Test::Deep qw(cmp_deeply);
 use Test::More;
 use Test::JSON::TypeInference::Matcher;
