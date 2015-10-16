@@ -26,7 +26,7 @@ JSON::TypeInference::Type::Number - JSON number type
 
 =head1 DESCRIPTION
 
-JSON::TypeInference::Type::Number represents JSON number type.
+C< JSON::TypeInference::Type::Number > represents JSON number type.
 
 It is a value type, and so has no parameters.
 

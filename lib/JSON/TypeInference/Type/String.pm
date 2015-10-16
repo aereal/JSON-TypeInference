@@ -26,7 +26,7 @@ JSON::TypeInference::Type::String - JSON string type
 
 =head1 DESCRIPTION
 
-JSON::TypeInference::Type::String represents JSON string type.
+C< JSON::TypeInference::Type::String > represents JSON string type.
 
 It is a value type, and so has no parameters.
 

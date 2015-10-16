@@ -99,9 +99,9 @@ JSON::TypeInference - Inferencing JSON types from given Perl values
 
 =head1 DESCRIPTION
 
-JSON::TypeInference infers the type of JSON values from the given Perl values.
+C< JSON::TypeInference > infers the type of JSON values from the given Perl values.
 
-If some candidate types of the given Perl values are inferred, JSON::TypeInference reports the type of it as a union type that consists of all candidate types.
+If some candidate types of the given Perl values are inferred, C< JSON::TypeInference > reports the type of it as a union type that consists of all candidate types.
 
 =head1 CLASS METHODS
 
@@ -111,7 +111,7 @@ If some candidate types of the given Perl values are inferred, JSON::TypeInferen
 
 To infer the type of JSON values from the given values.
 
-Return value is a instance of JSON::TypeInference::Type that means the inferred JSON type.
+Return value is a instance of C< JSON::TypeInference::Type > that means the inferred JSON type.
 
 =back
 
@@ -125,6 +125,10 @@ it under the same terms as Perl itself.
 =head1 AUTHOR
 
 aereal E<lt>aereal@aereal.orgE<gt>
+
+=head1 SEE ALSO
+
+L<JSON::TypeInference::Type>
 
 =cut
 

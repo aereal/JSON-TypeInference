@@ -26,7 +26,7 @@ JSON::TypeInference::Type::Boolean - JSON boolean type
 
 =head1 DESCRIPTION
 
-JSON::TypeInference::Type::Boolean represents JSON boolean type.
+C< JSON::TypeInference::Type::Boolean > represents JSON boolean type.
 
 It is a value type, and so has no parameters.
 

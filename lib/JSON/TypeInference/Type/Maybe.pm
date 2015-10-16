@@ -46,7 +46,7 @@ JSON::TypeInference::Type::Maybe - maybe type
 
 =head1 DESCRIPTION
 
-JSON::TypeInference::Type::Maybe represents a possibility whether a value type exists or not.
+C< JSON::TypeInference::Type::Maybe > represents a possibility whether a value type exists or not.
 
 The type consists of a value type and C<< JSON::TypeInference::Type::Null >>.
 
@@ -65,6 +65,10 @@ Returns whether the given types conform to C< JSON::TypeInference::Type::Maybe >
 =head1 AUTHOR
 
 aereal E<lt>aereal@aereal.orgE<gt>
+
+=head1 SEE ALSO
+
+L<JSON::TypeInference::Type::Null>
 
 =cut
 

@@ -40,7 +40,7 @@ JSON::TypeInference::Type::Object - JSON object type
 
 =head1 DESCRIPTION
 
-JSON::TypeInference::Type::Object represents JSON object type.
+C< JSON::TypeInference::Type::Object > represents JSON object type.
 
 It is a container type, and has some type parameters on each properties.
 
