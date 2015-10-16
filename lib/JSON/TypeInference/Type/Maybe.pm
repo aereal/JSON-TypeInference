@@ -52,6 +52,16 @@ The type consists of a value type and C<< JSON::TypeInference::Type::Null >>.
 
 It is a container type, and has a type parameter.
 
+=head1 METHODS
+
+=over 4
+
+=item C<< looks_like_maybe($candidate_types: ArrayRef[JSON::TypeInference::Type]); # => Bool >>
+
+Returns whether the given types conform to C< JSON::TypeInference::Type::Maybe > structure.
+
+=back
+
 =head1 AUTHOR
 
 aereal E<lt>aereal@aereal.orgE<gt>
