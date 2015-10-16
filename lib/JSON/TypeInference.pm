@@ -39,15 +39,20 @@ sub infer {
       ($type_class // 'JSON::TypeInference::Type::Unknown')->new;
     }
   } @$possible_types ];
-  if ((scalar(@$types) == 2) && any { $_->name eq 'null' } @$types) {
-    my $entity_type = first { $_->name ne 'null' } @$types;
+
+  if (_looks_like_maybe($types)) {
+    my $entity_type = first { ! $_->isa('JSON::TypeInference::Type::Null') } @$types;
     return JSON::TypeInference::Type::Maybe->new($entity_type);
   } elsif (scalar(@$types) > 1) {
     return JSON::TypeInference::Type::Union->new(sort_by { $_->name } @$types);
   } else {
     return $types->[0];
   }
-  return scalar(@$types) > 1 ? JSON::TypeInference::Type::Union->new(sort_by { $_->name } @$types) : $types->[0];
+}
+
+sub _looks_like_maybe {
+  my ($candidate_types) = @_;
+  return (scalar(@$candidate_types) == 2) && any { $_->isa('JSON::TypeInference::Type::Null') } @$candidate_types;
 }
 
 # ArrayRef[ArrayRef[Any]] => JSON::TypeInference::Type::Array
