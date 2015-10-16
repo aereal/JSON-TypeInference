@@ -1,11 +1,7 @@
 package JSON::TypeInference::Type::Unknown;
 use strict;
 use warnings;
-
-sub new {
-  my ($class) = @_;
-  return bless {}, $class;
-}
+use parent qw(JSON::TypeInference::Type::Atom);
 
 sub name {
   my ($class) = @_;
@@ -15,11 +11,6 @@ sub name {
 sub accepts {
   my ($class, $data) = @_;
   return 0;
-}
-
-sub signature {
-  my ($self) = @_;
-  return 'unknown';
 }
 
 1;

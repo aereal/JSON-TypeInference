@@ -1,13 +1,9 @@
 package JSON::TypeInference::Type::String;
 use strict;
 use warnings;
+use parent qw(JSON::TypeInference::Type::Atom);
 
 use Scalar::Util qw(looks_like_number);
-
-sub new {
-  my ($class) = @_;
-  return bless {}, $class;
-}
 
 sub name {
   my ($class) = @_;
@@ -17,11 +13,6 @@ sub name {
 sub accepts {
   my ($class, $data) = @_;
   return !ref($data) && defined($data) && !looks_like_number($data);
-}
-
-sub signature {
-  my ($self) = @_;
-  return 'string';
 }
 
 1;
