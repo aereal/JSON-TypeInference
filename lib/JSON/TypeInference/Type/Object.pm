@@ -23,3 +23,23 @@ sub accepts {
 }
 
 1;
+__END__
+
+=encoding utf-8
+
+=head1 NAME
+
+JSON::TypeInference::Type::Object - JSON object type
+
+=head1 DESCRIPTION
+
+JSON::TypeInference::Type::Object represents JSON object type.
+
+It is a container type, and has some type parameters on each properties.
+
+=head1 AUTHOR
+
+aereal E<lt>aereal@aereal.orgE<gt>
+
+=cut
+
