@@ -3,7 +3,7 @@ use 5.008001;
 use strict;
 use warnings;
 
-our $VERSION = "0.03";
+our $VERSION = "0.04";
 
 use List::Util qw(any first);
 use List::UtilsBy qw(partition_by sort_by);

@@ -45,6 +45,7 @@
             "List::Util" : "0",
             "List::UtilsBy" : "0",
             "Scalar::Util" : "0",
+            "Types::Serialiser" : "0",
             "perl" : "5.008001"
          }
       },
@@ -69,7 +70,7 @@
          "web" : "https://github.com/aereal/JSON-TypeInference"
       }
    },
-   "version" : "0.03",
+   "version" : "0.04",
    "x_authority" : "cpan:AEREAL",
    "x_contributors" : [
       "Syohei YOSHIDA <syohex@gmail.com>"

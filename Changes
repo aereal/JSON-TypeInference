@@ -2,6 +2,12 @@ Revision history for Perl extension JSON-TypeInference
 
 {{$NEXT}}
 
+0.04 2015-10-16T13:31:17Z
+    - #6 Reports the union type consists of Null and another entity type as a Maybe
+    - #7 Fix boolean recognition
+    - #8 Refactor JSON::TypeInference
+    - #9 Documentation for JSON::TypeInference::Type::*
+
 0.03 2015-10-15T09:41:29Z
 
     - No changes
