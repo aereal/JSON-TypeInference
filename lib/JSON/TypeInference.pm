@@ -100,7 +100,7 @@ JSON::TypeInference - Inferencing JSON types from given Perl values
       { name => 'nazuna' },
       { name => 'nori' },
     ];
-    my $inferred_type = JSON::TypeInference->infer($data); # object[string, string]
+    my $inferred_type = JSON::TypeInference->infer($data); # object[name:string]
 
 =head1 DESCRIPTION
 
