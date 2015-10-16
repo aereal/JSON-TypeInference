@@ -35,6 +35,12 @@ subtest '#infer' => sub {
       is_ok => boolean,
     );
   };
+  subtest 'optional' => sub {
+    cmp_deeply +JSON::TypeInference->infer([ { id => 1, is_ok => \1 }, { id => 2 } ]), object(
+      id    => number,
+      is_ok => maybe boolean,
+    );
+  };
 };
 
 done_testing;
