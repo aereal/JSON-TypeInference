@@ -42,6 +42,12 @@ subtest '#infer' => sub {
       is_ok => maybe boolean,
     );
   };
+  subtest 'empty array' => sub {
+    cmp_deeply +JSON::TypeInference->infer([ [] ]), array unknown;
+  };
+  subtest 'empty object' => sub {
+    cmp_deeply +JSON::TypeInference->infer([ {} ]), object();
+  };
 };
 
 done_testing;

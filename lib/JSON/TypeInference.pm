@@ -36,7 +36,7 @@ sub infer {
       my $dataset = $dataset_by_type->{$type_class}; # ArrayRef[HashRef[Str, Any]]
       $class->_infer_object_property_types($dataset);
     } else {
-      ($type_class // 'JSON::TypeInference::Type::Unknown')->new;
+      $type_class->new;
     }
   } @$possible_type_classes ];
 
@@ -46,7 +46,7 @@ sub infer {
   } elsif (scalar(@$candidate_types) > 1) {
     return JSON::TypeInference::Type::Union->new(sort_by { $_->name } @$candidate_types);
   } else {
-    return $candidate_types->[0];
+    return $candidate_types->[0] // JSON::TypeInference::Type::Unknown->new;
   }
 }
 
