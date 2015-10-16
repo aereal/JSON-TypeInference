@@ -39,7 +39,7 @@ JSON::TypeInference::Type::Union - union type
 
 =head1 DESCRIPTION
 
-JSON::TypeInference::Type::Union consists of one or more value types.
+C< JSON::TypeInference::Type::Union > consists of one or more value types.
 
 C< JSON::TypeInference::Type::Union > represents a possibility of actual types from inference.
 

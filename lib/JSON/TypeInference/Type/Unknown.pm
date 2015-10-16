@@ -24,7 +24,7 @@ JSON::TypeInference::Type::Unknown - unknown type
 
 =head1 DESCRIPTION
 
-JSON::TypeInference::Type::Unknown is retuned if C<< JSON::TypeInference >> encountered a value that does not match any JSON types.
+C< JSON::TypeInference::Type::Unknown > is retuned if C<< JSON::TypeInference >> encountered a value that does not match any JSON types.
 
 It looks like a value type, and so has no parameters.
 

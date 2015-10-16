@@ -24,7 +24,7 @@ JSON::TypeInference::Type::Null - JSON null type
 
 =head1 DESCRIPTION
 
-JSON::TypeInference::Type::Null represents JSON null type.
+C< JSON::TypeInference::Type::Null > represents JSON null type.
 
 It is a value type, and so has no parameters.
 
