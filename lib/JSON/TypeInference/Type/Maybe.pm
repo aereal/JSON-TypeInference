@@ -2,6 +2,14 @@ package JSON::TypeInference::Type::Maybe;
 use strict;
 use warnings;
 
+use List::Util qw(any);
+
+# ArrayRef[JSON::TypeInference::Type] => Bool
+sub looks_like_maybe {
+  my ($class, $candidate_types) = @_;
+  return (scalar(@$candidate_types) == 2) && any { $_->isa('JSON::TypeInference::Type::Null') } @$candidate_types;
+}
+
 sub new {
   my ($class, $type) = @_;
   return bless { type => $type }, $class;
@@ -43,6 +51,16 @@ JSON::TypeInference::Type::Maybe represents a possibility whether a value type e
 The type consists of a value type and C<< JSON::TypeInference::Type::Null >>.
 
 It is a container type, and has a type parameter.
+
+=head1 METHODS
+
+=over 4
+
+=item C<< looks_like_maybe($candidate_types: ArrayRef[JSON::TypeInference::Type]); # => Bool >>
+
+Returns whether the given types conform to C< JSON::TypeInference::Type::Maybe > structure.
+
+=back
 
 =head1 AUTHOR
 
