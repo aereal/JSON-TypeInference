@@ -4,10 +4,13 @@ use Test::More;
 
 require_ok 'JSON::TypeInference::Type::Array';
 require_ok 'JSON::TypeInference::Type::Boolean';
+require_ok 'JSON::TypeInference::Type::Maybe';
 require_ok 'JSON::TypeInference::Type::Null';
 require_ok 'JSON::TypeInference::Type::Number';
 require_ok 'JSON::TypeInference::Type::Object';
 require_ok 'JSON::TypeInference::Type::String';
+require_ok 'JSON::TypeInference::Type::Union';
+require_ok 'JSON::TypeInference::Type::Unknown';
 
 subtest '#accepts' => sub {
   subtest 'string' => sub {
@@ -68,6 +71,36 @@ subtest '#accepts' => sub {
     ok ! JSON::TypeInference::Type::Boolean->accepts([]);
     ok ! JSON::TypeInference::Type::Boolean->accepts({});
     ok ! JSON::TypeInference::Type::Boolean->accepts(undef);
+  };
+
+  subtest 'maybe' => sub {
+    ok ! JSON::TypeInference::Type::Maybe->accepts('a');
+    ok ! JSON::TypeInference::Type::Maybe->accepts(1);
+    ok ! JSON::TypeInference::Type::Maybe->accepts(\1);
+    ok ! JSON::TypeInference::Type::Maybe->accepts(\0);
+    ok ! JSON::TypeInference::Type::Maybe->accepts([]);
+    ok ! JSON::TypeInference::Type::Maybe->accepts({});
+    ok ! JSON::TypeInference::Type::Maybe->accepts(undef);
+  };
+
+  subtest 'union' => sub {
+    ok ! JSON::TypeInference::Type::Union->accepts('a');
+    ok ! JSON::TypeInference::Type::Union->accepts(1);
+    ok ! JSON::TypeInference::Type::Union->accepts(\1);
+    ok ! JSON::TypeInference::Type::Union->accepts(\0);
+    ok ! JSON::TypeInference::Type::Union->accepts([]);
+    ok ! JSON::TypeInference::Type::Union->accepts({});
+    ok ! JSON::TypeInference::Type::Union->accepts(undef);
+  };
+
+  subtest 'unknown' => sub {
+    ok ! JSON::TypeInference::Type::Unknown->accepts('a');
+    ok ! JSON::TypeInference::Type::Unknown->accepts(1);
+    ok ! JSON::TypeInference::Type::Unknown->accepts(\1);
+    ok ! JSON::TypeInference::Type::Unknown->accepts(\0);
+    ok ! JSON::TypeInference::Type::Unknown->accepts([]);
+    ok ! JSON::TypeInference::Type::Unknown->accepts({});
+    ok ! JSON::TypeInference::Type::Unknown->accepts(undef);
   };
 };
 
