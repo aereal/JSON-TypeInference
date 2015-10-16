@@ -20,3 +20,23 @@ sub accepts {
 }
 
 1;
+__END__
+
+=encoding utf-8
+
+=head1 NAME
+
+JSON::TypeInference::Type::String - JSON string type
+
+=head1 DESCRIPTION
+
+JSON::TypeInference::Type::String represents JSON string type.
+
+It is a value type, and so has no parameters.
+
+=head1 AUTHOR
+
+aereal E<lt>aereal@aereal.orgE<gt>
+
+=cut
+

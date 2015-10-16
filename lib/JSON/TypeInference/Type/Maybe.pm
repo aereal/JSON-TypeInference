@@ -23,3 +23,25 @@ sub accepts {
 }
 
 1;
+__END__
+
+=encoding utf-8
+
+=head1 NAME
+
+JSON::TypeInference::Type::Maybe - maybe type
+
+=head1 DESCRIPTION
+
+JSON::TypeInference::Type::Maybe represents a possibility whether a value type exists or not.
+
+The type consists of a value type and C<< JSON::TypeInference::Type::Null >>.
+
+It is a container type, and has a type parameter.
+
+=head1 AUTHOR
+
+aereal E<lt>aereal@aereal.orgE<gt>
+
+=cut
+
