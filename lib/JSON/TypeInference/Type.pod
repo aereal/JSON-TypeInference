@@ -26,6 +26,18 @@ Returns a name of type.
 
 =back
 
+=head2 INSTANCE METHODS
+
+=over 4
+
+=item C<< signature() # => Str >>
+
+Returns a signature of type.
+
+If the type has some type parameters, the signature contains type parameters that sorted by name.
+
+=back
+
 =head1 LICENSE
 
 Copyright (C) aereal.

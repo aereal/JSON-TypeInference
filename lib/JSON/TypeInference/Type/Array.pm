@@ -18,6 +18,11 @@ sub element_type {
   return $self->{element_type};
 }
 
+sub signature {
+  my ($self) = @_;
+  return sprintf 'array[%s]', $self->element_type->signature;
+}
+
 sub accepts {
   my ($class, $data) = @_;
   return ref($data) eq 'ARRAY';

@@ -22,6 +22,12 @@ sub accepts {
   return 0;
 }
 
+sub signature {
+  my ($self) = @_;
+  my @signatures = map { $_->signature } @{$self->types};
+  return join '|', sort @signatures;
+}
+
 1;
 __END__
 

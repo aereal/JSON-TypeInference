@@ -17,6 +17,11 @@ sub accepts {
   return 0;
 }
 
+sub signature {
+  my ($self) = @_;
+  return 'unknown';
+}
+
 1;
 __END__
 

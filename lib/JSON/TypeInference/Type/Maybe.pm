@@ -17,6 +17,11 @@ sub type {
   return $self->{type};
 }
 
+sub signature {
+  my ($self) = @_;
+  return sprintf 'maybe[%s]', $self->type->signature;
+}
+
 sub accepts {
   my ($class, $data) = @_;
   return 0;
