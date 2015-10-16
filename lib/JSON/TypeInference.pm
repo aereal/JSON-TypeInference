@@ -112,9 +112,7 @@ If some candidate types of the given Perl values are inferred, JSON::TypeInferen
 
 =over 4
 
-=item infer
-
-    JSON::TypeInference->infer($dataset: ArrayRef[Any]); # => JSON::TypeInference::Type
+=item C<< infer($dataset: ArrayRef[Any]); # => JSON::TypeInference::Type >>
 
 To infer the type of JSON values from the given values.
 
