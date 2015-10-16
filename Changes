@@ -2,6 +2,14 @@ Revision history for Perl extension JSON-TypeInference
 
 {{$NEXT}}
 
+1.0.0 2015-10-16T16:59:51Z
+
+    - #10 JSON::TypeInference::Type#signature
+    - #12 Prettify and makes the method documentation compact
+    - #13 Type::Atom
+    - #14 looks_like_maybe
+    - #15 Tweaks documents
+
 0.04 2015-10-16T13:31:17Z
     - #6 Reports the union type consists of Null and another entity type as a Maybe
     - #7 Fix boolean recognition
