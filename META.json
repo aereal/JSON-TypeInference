@@ -70,7 +70,7 @@
          "web" : "https://github.com/aereal/JSON-TypeInference"
       }
    },
-   "version" : "1.0.0",
+   "version" : "1.0.1",
    "x_authority" : "cpan:AEREAL",
    "x_contributors" : [
       "Syohei YOSHIDA <syohex@gmail.com>"
