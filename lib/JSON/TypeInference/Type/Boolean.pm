@@ -2,6 +2,8 @@ package JSON::TypeInference::Type::Boolean;
 use strict;
 use warnings;
 
+use Types::Serialiser;
+
 sub new {
   my ($class) = @_;
   return bless {}, $class;
@@ -14,7 +16,7 @@ sub name {
 
 sub accepts {
   my ($class, $data) = @_;
-  return (ref($data) eq 'SCALAR') && ($$data == 0 || $$data == 1);
+  return Types::Serialiser::is_bool($data);
 }
 
 1;

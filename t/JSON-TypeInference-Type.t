@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 use Test::More;
+use Types::Serialiser;
 
 require_ok 'JSON::TypeInference::Type::Array';
 require_ok 'JSON::TypeInference::Type::Boolean';
@@ -66,8 +67,9 @@ subtest '#accepts' => sub {
   subtest 'boolean' => sub {
     ok ! JSON::TypeInference::Type::Boolean->accepts('a');
     ok ! JSON::TypeInference::Type::Boolean->accepts(1);
-    ok + JSON::TypeInference::Type::Boolean->accepts(\1);
-    ok + JSON::TypeInference::Type::Boolean->accepts(\0);
+    ok ! JSON::TypeInference::Type::Boolean->accepts(\(my $str = 'str'));
+    ok + JSON::TypeInference::Type::Boolean->accepts(Types::Serialiser::true);
+    ok + JSON::TypeInference::Type::Boolean->accepts(Types::Serialiser::false);
     ok ! JSON::TypeInference::Type::Boolean->accepts([]);
     ok ! JSON::TypeInference::Type::Boolean->accepts({});
     ok ! JSON::TypeInference::Type::Boolean->accepts(undef);
