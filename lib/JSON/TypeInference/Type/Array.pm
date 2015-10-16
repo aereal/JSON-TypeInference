@@ -24,3 +24,23 @@ sub accepts {
 }
 
 1;
+__END__
+
+=encoding utf-8
+
+=head1 NAME
+
+JSON::TypeInference::Type::Array - JSON array type
+
+=head1 DESCRIPTION
+
+JSON::TypeInference::Type::Array represents JSON array type.
+
+It is a container type, and has a type parameter that called C<< element_type >>.
+
+=head1 AUTHOR
+
+aereal E<lt>aereal@aereal.orgE<gt>
+
+=cut
+
