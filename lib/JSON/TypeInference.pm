@@ -26,8 +26,8 @@ use constant ENTITY_TYPE_CLASSES => [
 sub infer {
   my ($class, $dataset) = @_;
   my $dataset_by_type = { partition_by { _infer_type_for($_) } @$dataset };
-  my $possible_types = [ keys %$dataset_by_type ];
-  my $types = [ map {
+  my $possible_type_classes = [ keys %$dataset_by_type ];
+  my $candidate_types = [ map {
     my $type_class = $_;
     if ($type_class eq 'JSON::TypeInference::Type::Array') {
       my $dataset = $dataset_by_type->{$type_class};
@@ -38,15 +38,15 @@ sub infer {
     } else {
       ($type_class // 'JSON::TypeInference::Type::Unknown')->new;
     }
-  } @$possible_types ];
+  } @$possible_type_classes ];
 
-  if (_looks_like_maybe($types)) {
-    my $entity_type = first { ! $_->isa('JSON::TypeInference::Type::Null') } @$types;
+  if (_looks_like_maybe($candidate_types)) {
+    my $entity_type = first { ! $_->isa('JSON::TypeInference::Type::Null') } @$candidate_types;
     return JSON::TypeInference::Type::Maybe->new($entity_type);
-  } elsif (scalar(@$types) > 1) {
-    return JSON::TypeInference::Type::Union->new(sort_by { $_->name } @$types);
+  } elsif (scalar(@$candidate_types) > 1) {
+    return JSON::TypeInference::Type::Union->new(sort_by { $_->name } @$candidate_types);
   } else {
-    return $types->[0];
+    return $candidate_types->[0];
   }
 }
 
