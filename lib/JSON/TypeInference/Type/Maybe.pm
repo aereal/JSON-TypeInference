@@ -2,6 +2,14 @@ package JSON::TypeInference::Type::Maybe;
 use strict;
 use warnings;
 
+use List::Util qw(any);
+
+# ArrayRef[JSON::TypeInference::Type] => Bool
+sub looks_like_maybe {
+  my ($class, $candidate_types) = @_;
+  return (scalar(@$candidate_types) == 2) && any { $_->isa('JSON::TypeInference::Type::Null') } @$candidate_types;
+}
+
 sub new {
   my ($class, $type) = @_;
   return bless { type => $type }, $class;

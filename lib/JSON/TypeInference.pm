@@ -5,7 +5,7 @@ use warnings;
 
 our $VERSION = "0.04";
 
-use List::Util qw(any first);
+use List::Util qw(first);
 use List::UtilsBy qw(partition_by sort_by);
 
 use JSON::TypeInference::Type::Array;
@@ -40,7 +40,7 @@ sub infer {
     }
   } @$possible_type_classes ];
 
-  if (_looks_like_maybe($candidate_types)) {
+  if (JSON::TypeInference::Type::Maybe->looks_like_maybe($candidate_types)) {
     my $entity_type = first { ! $_->isa('JSON::TypeInference::Type::Null') } @$candidate_types;
     return JSON::TypeInference::Type::Maybe->new($entity_type);
   } elsif (scalar(@$candidate_types) > 1) {
@@ -48,11 +48,6 @@ sub infer {
   } else {
     return $candidate_types->[0];
   }
-}
-
-sub _looks_like_maybe {
-  my ($candidate_types) = @_;
-  return (scalar(@$candidate_types) == 2) && any { $_->isa('JSON::TypeInference::Type::Null') } @$candidate_types;
 }
 
 # ArrayRef[ArrayRef[Any]] => JSON::TypeInference::Type::Array
