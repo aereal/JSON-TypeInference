@@ -40,4 +40,4 @@ it under the same terms as Perl itself.
 
 # AUTHOR
 
-aereal <aereal@aereal.org>
+aereal &lt;aereal@aereal.org>

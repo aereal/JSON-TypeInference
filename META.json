@@ -52,6 +52,7 @@
          "requires" : {
             "Devel::Cover" : "0",
             "Devel::Cover::Report::Coveralls" : "0",
+            "Test::Deep" : "0",
             "Test::More" : "0.98"
          }
       }
