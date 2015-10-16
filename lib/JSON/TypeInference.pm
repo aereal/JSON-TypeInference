@@ -26,36 +26,53 @@ use constant ENTITY_TYPE_CLASSES => [
 sub infer {
   my ($class, $dataset) = @_;
   my $dataset_by_type = { partition_by { _infer_type_for($_) } @$dataset };
-  my $possible_types = [ keys %$dataset_by_type ];
-  my $types = [ map {
+  my $possible_type_classes = [ keys %$dataset_by_type ];
+  my $candidate_types = [ map {
     my $type_class = $_;
     if ($type_class eq 'JSON::TypeInference::Type::Array') {
       my $dataset = $dataset_by_type->{$type_class};
-      my $elements = [ map { @$_ } @$dataset ];
-      my $element_type = $class->infer($elements);
-      JSON::TypeInference::Type::Array->new($element_type);
+      $class->_infer_array_element_types($dataset);
     } elsif ($type_class eq 'JSON::TypeInference::Type::Object') {
       my $dataset = $dataset_by_type->{$type_class}; # ArrayRef[HashRef[Str, Any]]
-      my $keys = [ map { keys %$_ } @$dataset ]; # ArrayRef[Str]
-      my $dataset_by_prop = { map {
-        my $prop = $_;
-        ($prop => [ map { $_->{$prop} } @$dataset ])
-      } @$keys }; # HashRef[Str, ArrayRef[Str]]
-      my $prop_types = { map { ($_ => $class->infer($dataset_by_prop->{$_})) } @$keys };
-      JSON::TypeInference::Type::Object->new($prop_types);
+      $class->_infer_object_property_types($dataset);
     } else {
       ($type_class // 'JSON::TypeInference::Type::Unknown')->new;
     }
-  } @$possible_types ];
-  if ((scalar(@$types) == 2) && any { $_->name eq 'null' } @$types) {
-    my $entity_type = first { $_->name ne 'null' } @$types;
+  } @$possible_type_classes ];
+
+  if (_looks_like_maybe($candidate_types)) {
+    my $entity_type = first { ! $_->isa('JSON::TypeInference::Type::Null') } @$candidate_types;
     return JSON::TypeInference::Type::Maybe->new($entity_type);
-  } elsif (scalar(@$types) > 1) {
-    return JSON::TypeInference::Type::Union->new(sort_by { $_->name } @$types);
+  } elsif (scalar(@$candidate_types) > 1) {
+    return JSON::TypeInference::Type::Union->new(sort_by { $_->name } @$candidate_types);
   } else {
-    return $types->[0];
+    return $candidate_types->[0];
   }
-  return scalar(@$types) > 1 ? JSON::TypeInference::Type::Union->new(sort_by { $_->name } @$types) : $types->[0];
+}
+
+sub _looks_like_maybe {
+  my ($candidate_types) = @_;
+  return (scalar(@$candidate_types) == 2) && any { $_->isa('JSON::TypeInference::Type::Null') } @$candidate_types;
+}
+
+# ArrayRef[ArrayRef[Any]] => JSON::TypeInference::Type::Array
+sub _infer_array_element_types {
+  my ($class, $dataset) = @_;
+  my $elements = [ map { @$_ } @$dataset ];
+  my $element_type = $class->infer($elements);
+  return JSON::TypeInference::Type::Array->new($element_type);
+}
+
+# ArrayRef[HashRef[Str, Any]] => JSON::TypeInference::Type::Object
+sub _infer_object_property_types {
+  my ($class, $dataset) = @_;
+  my $keys = [ map { keys %$_ } @$dataset ]; # ArrayRef[Str]
+  my $dataset_by_prop = { map {
+    my $prop = $_;
+    ($prop => [ map { $_->{$prop} } @$dataset ])
+  } @$keys }; # HashRef[Str, ArrayRef[Str]]
+  my $prop_types = { map { ($_ => $class->infer($dataset_by_prop->{$_})) } @$keys };
+  return JSON::TypeInference::Type::Object->new($prop_types);
 }
 
 # Any => Type
