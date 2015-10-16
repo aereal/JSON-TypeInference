@@ -22,6 +22,13 @@ sub accepts {
   return ref($data) eq 'HASH';
 }
 
+sub signature {
+  my ($self) = @_;
+  my @sorted_keys = sort keys %{$self->properties};
+  my @prop_signatures = map { join ':', $_, $self->properties->{$_}->signature } @sorted_keys;
+  return sprintf 'object[%s]', join ', ', @prop_signatures;
+}
+
 1;
 __END__
 

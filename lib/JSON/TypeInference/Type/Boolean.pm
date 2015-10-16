@@ -19,6 +19,11 @@ sub accepts {
   return Types::Serialiser::is_bool($data);
 }
 
+sub signature {
+  my ($self) = @_;
+  return 'boolean';
+}
+
 1;
 __END__
 

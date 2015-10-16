@@ -13,6 +13,51 @@ require_ok 'JSON::TypeInference::Type::String';
 require_ok 'JSON::TypeInference::Type::Union';
 require_ok 'JSON::TypeInference::Type::Unknown';
 
+subtest '#signature' => sub {
+  subtest 'array' => sub {
+    my $string = JSON::TypeInference::Type::String->new;
+    my $string_array = JSON::TypeInference::Type::Array->new($string);
+    is $string_array->signature, 'array[string]';
+  };
+  subtest 'boolean' => sub {
+    my $boolean = JSON::TypeInference::Type::Boolean->new;
+    is $boolean->signature, 'boolean';
+  };
+  subtest 'maybe' => sub {
+    my $string = JSON::TypeInference::Type::String->new;
+    my $maybe_string = JSON::TypeInference::Type::Maybe->new($string);
+    is $maybe_string->signature, 'maybe[string]';
+  };
+  subtest 'null' => sub {
+    my $null = JSON::TypeInference::Type::Null->new;
+    is $null->signature, 'null';
+  };
+  subtest 'number' => sub {
+    my $number = JSON::TypeInference::Type::Number->new;
+    is $number->signature, 'number';
+  };
+  subtest 'object' => sub {
+    my $string = JSON::TypeInference::Type::String->new;
+    my $number = JSON::TypeInference::Type::Number->new;
+    my $object = JSON::TypeInference::Type::Object->new({ name => $string, id => $number });
+    is $object->signature, 'object[id:number, name:string]';
+  };
+  subtest 'string' => sub {
+    my $string = JSON::TypeInference::Type::String->new;
+    is $string->signature, 'string';
+  };
+  subtest 'union' => sub {
+    my $string = JSON::TypeInference::Type::String->new;
+    my $number = JSON::TypeInference::Type::Number->new;
+    my $string_or_number = JSON::TypeInference::Type::Union->new($string, $number);
+    is $string_or_number->signature, 'number|string';
+  };
+  subtest 'unknown' => sub {
+    my $unknown = JSON::TypeInference::Type::Unknown->new;
+    is $unknown->signature, 'unknown';
+  };
+};
+
 subtest '#accepts' => sub {
   subtest 'string' => sub {
     ok + JSON::TypeInference::Type::String->accepts('a');

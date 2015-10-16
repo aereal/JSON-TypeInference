@@ -19,6 +19,11 @@ sub accepts {
   return !ref($data) && defined($data) && looks_like_number($data);
 }
 
+sub signature {
+  my ($self) = @_;
+  return 'number';
+}
+
 1;
 __END__
 

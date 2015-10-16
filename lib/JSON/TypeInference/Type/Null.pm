@@ -17,6 +17,11 @@ sub accepts {
   return !defined($data);
 }
 
+sub signature {
+  my ($self) = @_;
+  return 'null';
+}
+
 1;
 __END__
 
