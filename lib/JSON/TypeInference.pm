@@ -31,18 +31,10 @@ sub infer {
     my $type_class = $_;
     if ($type_class eq 'JSON::TypeInference::Type::Array') {
       my $dataset = $dataset_by_type->{$type_class};
-      my $elements = [ map { @$_ } @$dataset ];
-      my $element_type = $class->infer($elements);
-      JSON::TypeInference::Type::Array->new($element_type);
+      $class->_infer_array_element_types($dataset);
     } elsif ($type_class eq 'JSON::TypeInference::Type::Object') {
       my $dataset = $dataset_by_type->{$type_class}; # ArrayRef[HashRef[Str, Any]]
-      my $keys = [ map { keys %$_ } @$dataset ]; # ArrayRef[Str]
-      my $dataset_by_prop = { map {
-        my $prop = $_;
-        ($prop => [ map { $_->{$prop} } @$dataset ])
-      } @$keys }; # HashRef[Str, ArrayRef[Str]]
-      my $prop_types = { map { ($_ => $class->infer($dataset_by_prop->{$_})) } @$keys };
-      JSON::TypeInference::Type::Object->new($prop_types);
+      $class->_infer_object_property_types($dataset);
     } else {
       ($type_class // 'JSON::TypeInference::Type::Unknown')->new;
     }
@@ -56,6 +48,26 @@ sub infer {
     return $types->[0];
   }
   return scalar(@$types) > 1 ? JSON::TypeInference::Type::Union->new(sort_by { $_->name } @$types) : $types->[0];
+}
+
+# ArrayRef[ArrayRef[Any]] => JSON::TypeInference::Type::Array
+sub _infer_array_element_types {
+  my ($class, $dataset) = @_;
+  my $elements = [ map { @$_ } @$dataset ];
+  my $element_type = $class->infer($elements);
+  return JSON::TypeInference::Type::Array->new($element_type);
+}
+
+# ArrayRef[HashRef[Str, Any]] => JSON::TypeInference::Type::Object
+sub _infer_object_property_types {
+  my ($class, $dataset) = @_;
+  my $keys = [ map { keys %$_ } @$dataset ]; # ArrayRef[Str]
+  my $dataset_by_prop = { map {
+    my $prop = $_;
+    ($prop => [ map { $_->{$prop} } @$dataset ])
+  } @$keys }; # HashRef[Str, ArrayRef[Str]]
+  my $prop_types = { map { ($_ => $class->infer($dataset_by_prop->{$_})) } @$keys };
+  return JSON::TypeInference::Type::Object->new($prop_types);
 }
 
 # Any => Type
