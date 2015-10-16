@@ -14,7 +14,7 @@ use JSON::TypeInference::Type::String;
 use JSON::TypeInference::Type::Union;
 
 our @EXPORT = qw(
-  number string null boolean array object union unknown
+  number string null boolean array object union unknown maybe
 );
 
 sub unknown () {
@@ -50,6 +50,11 @@ sub object (%) {
 sub union (@) {
   my (@types) = @_;
   return Test::Deep::isa('JSON::TypeInference::Type::Union') & Test::Deep::methods(types => \@types);
+}
+
+sub maybe ($) {
+  my ($type) = @_;
+  return Test::Deep::isa('JSON::TypeInference::Type::Maybe') & Test::Deep::methods(type => $type);
 }
 
 1;

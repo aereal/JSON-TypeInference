@@ -5,11 +5,12 @@ use warnings;
 
 our $VERSION = "0.03";
 
-use List::Util qw(first);
+use List::Util qw(any first);
 use List::UtilsBy qw(partition_by sort_by);
 
 use JSON::TypeInference::Type::Array;
 use JSON::TypeInference::Type::Boolean;
+use JSON::TypeInference::Type::Maybe;
 use JSON::TypeInference::Type::Null;
 use JSON::TypeInference::Type::Number;
 use JSON::TypeInference::Type::Object;
@@ -46,6 +47,14 @@ sub infer {
       ($type_class // 'JSON::TypeInference::Type::Unknown')->new;
     }
   } @$possible_types ];
+  if ((scalar(@$types) == 2) && any { $_->name eq 'null' } @$types) {
+    my $entity_type = first { $_->name ne 'null' } @$types;
+    return JSON::TypeInference::Type::Maybe->new($entity_type);
+  } elsif (scalar(@$types) > 1) {
+    return JSON::TypeInference::Type::Union->new(sort_by { $_->name } @$types);
+  } else {
+    return $types->[0];
+  }
   return scalar(@$types) > 1 ? JSON::TypeInference::Type::Union->new(sort_by { $_->name } @$types) : $types->[0];
 }
 
