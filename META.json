@@ -26,6 +26,11 @@
       ]
    },
    "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Test::Deep" : "0"
+         }
+      },
       "configure" : {
          "requires" : {
             "Module::Build::Tiny" : "0.035"
@@ -42,7 +47,7 @@
       },
       "runtime" : {
          "requires" : {
-            "List::Util" : "0",
+            "List::Util" : "1.33",
             "List::UtilsBy" : "0",
             "Scalar::Util" : "0",
             "Types::Serialiser" : "0",
@@ -70,9 +75,10 @@
          "web" : "https://github.com/aereal/JSON-TypeInference"
       }
    },
-   "version" : "1.0.1",
+   "version" : "1.0.2",
    "x_authority" : "cpan:AEREAL",
    "x_contributors" : [
-      "Syohei YOSHIDA <syohex@gmail.com>"
+      "Syohei YOSHIDA <syohex@gmail.com>",
+      "Mohammad S Anwar <mohammad.anwar@yahoo.com>"
    ]
 }

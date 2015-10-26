@@ -2,6 +2,11 @@ Revision history for Perl extension JSON-TypeInference
 
 {{$NEXT}}
 
+1.0.2 2015-10-26T10:53:28Z
+
+    - #18 List::Util exports `any` earlier than 1.32
+    - #11 - Added missing build prereqs
+
 1.0.1 2015-10-16T18:17:54Z
 
     - #16 Infer the type as array[unknown] from empty array
