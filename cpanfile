@@ -1,6 +1,6 @@
 requires 'perl', '5.008001';
 
-requires 'List::Util';
+requires 'List::Util', '>= 1.33';
 requires 'List::UtilsBy';
 requires 'Scalar::Util';
 requires 'Types::Serialiser';
